@@ -3,31 +3,1043 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta
-    name="description"
-    content="Direction helps people find clarity, confidence, and purpose through thoughtful guidance."
-  />
+  <meta name="description" content="Direction helps people find clarity, confidence, and purpose through thoughtful guidance." />
   <title>Direction — Finding Purpose</title>
 
+  <!-- Google Fonts: Inter & Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
-    rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="styles.css" />
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --white: #ffffff;
+      --ice: #f8fafc;
+      --ice-blue: #f0f9ff;
+      --navy: #0f172a;
+      --charcoal: #1e293b;
+      --slate: #64748b;
+      --slate-light: #cbd5e1;
+      --border: #e2e8f0;
+      --teal: #0d9488;
+      --cyan: #0284c7;
+      --amber: #f59e0b;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+      --shadow-soft: 0 20px 60px rgba(15, 23, 42, 0.08);
+      --shadow-card: 0 12px 35px rgba(15, 23, 42, 0.07);
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-heading: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--navy);
+      background: var(--white);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body.modal-open {
+      overflow: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button, input, textarea {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    .container {
+      width: min(1180px, calc(100% - 48px));
+      margin-inline: auto;
+    }
+
+    .skip-link {
+      position: fixed;
+      top: 12px;
+      left: 12px;
+      z-index: 999;
+      padding: 10px 14px;
+      color: var(--white);
+      background: var(--navy);
+      border-radius: 8px;
+      transform: translateY(-150%);
+      transition: transform 0.2s ease;
+    }
+
+    .skip-link:focus {
+      transform: translateY(0);
+    }
+
+    /* Header & Navigation */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255, 255, 255, 0.94);
+      border-bottom: 1px solid #f1f5f9;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .navbar {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      min-height: 78px;
+      gap: 24px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      width: fit-content;
+      font-family: var(--font-heading);
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
+
+    .brand-mark {
+      display: grid;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      color: var(--white);
+      background: linear-gradient(135deg, var(--teal), var(--cyan));
+      border-radius: 11px;
+      box-shadow: 0 7px 18px rgba(2, 132, 199, 0.2);
+    }
+
+    .brand-mark svg {
+      width: 19px;
+      height: 19px;
+      stroke-width: 2.5;
+    }
+
+    .desktop-nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      color: var(--slate);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .desktop-nav a, .footer-links a {
+      transition: color 0.2s ease;
+    }
+
+    .desktop-nav a:hover, .footer-links a:hover {
+      color: var(--teal);
+    }
+
+    .nav-cta {
+      justify-self: end;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      min-height: 44px;
+      padding: 0 22px;
+      color: var(--white);
+      border: 0;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+    }
+
+    .button:hover {
+      transform: scale(1.035);
+    }
+
+    .button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible {
+      outline: 3px solid rgba(2, 132, 199, 0.35);
+      outline-offset: 3px;
+    }
+
+    .button svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .button-dark {
+      background: var(--charcoal);
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.16);
+    }
+
+    .button-dark:hover {
+      background: var(--navy);
+      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.2);
+    }
+
+    .button-light {
+      color: var(--navy);
+      background: var(--white);
+    }
+
+    .button-large {
+      min-height: 54px;
+      padding-inline: 28px;
+      font-size: 14px;
+    }
+
+    .button-full {
+      width: 100%;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      background: #2dd4bf;
+      border-radius: 50%;
+      box-shadow: 0 0 0 4px rgba(45, 212, 191, 0.18);
+    }
+
+    .menu-toggle, .mobile-menu {
+      display: none;
+    }
+
+    .section {
+      padding: 100px 0;
+    }
+
+    /* Hero Section */
+    .hero {
+      overflow: hidden;
+      padding-top: 80px;
+      padding-bottom: 70px;
+      background: radial-gradient(circle at 88% 10%, rgba(224, 242, 254, 0.65), transparent 28%),
+                  linear-gradient(180deg, #fff 0%, #fafdff 100%);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.05fr;
+      align-items: center;
+      gap: 60px;
+    }
+
+    .rating-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      width: fit-content;
+      margin-bottom: 24px;
+      padding: 8px 16px;
+      color: var(--slate);
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.04);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .stars {
+      color: var(--amber);
+      font-size: 13px;
+      letter-spacing: 2px;
+    }
+
+    .rating-divider {
+      width: 1px;
+      height: 14px;
+      background: var(--slate-light);
+    }
+
+    .eyebrow {
+      margin: 0 0 14px;
+      color: var(--teal);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      line-height: 1.4;
+      text-transform: uppercase;
+    }
+
+    h1, h2, h3, p {
+      margin-top: 0;
+    }
+
+    h1, h2, h3 {
+      font-family: var(--font-heading);
+      letter-spacing: -0.04em;
+    }
+
+    h1 {
+      max-width: 620px;
+      margin-bottom: 22px;
+      font-size: clamp(40px, 4.8vw, 68px);
+      line-height: 1.06;
+      font-weight: 800;
+    }
+
+    h1 span, h2 span {
+      color: var(--teal);
+    }
+
+    .hero-description {
+      max-width: 500px;
+      margin-bottom: 32px;
+      color: var(--slate);
+      font-size: 16px;
+      line-height: 1.75;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 22px;
+    }
+
+    .text-link, .card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--navy);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .text-link svg, .card-link svg {
+      width: 16px;
+      height: 16px;
+      transition: transform 0.2s ease;
+    }
+
+    .text-link:hover svg, .card-link:hover svg {
+      transform: translate(3px, -3px);
+    }
+
+    .hero-note {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 36px;
+    }
+
+    .hero-note p {
+      max-width: 250px;
+      margin: 0;
+      color: var(--slate);
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .mini-avatar-group {
+      display: flex;
+      flex-shrink: 0;
+    }
+
+    .mini-avatar-group span, .author-avatar {
+      display: grid;
+      width: 32px;
+      height: 32px;
+      margin-right: -8px;
+      place-items: center;
+      color: var(--white);
+      background: var(--teal);
+      border: 2px solid var(--white);
+      border-radius: 50%;
+      font-size: 9px;
+      font-weight: 800;
+    }
+
+    .mini-avatar-group span:nth-child(2) { background: var(--cyan); }
+    .mini-avatar-group span:nth-child(3) { background: #64748b; }
+
+    .hero-visual {
+      position: relative;
+    }
+
+    .image-frame {
+      position: relative;
+      height: 520px;
+      overflow: hidden;
+      border-radius: 28px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .image-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .image-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.02) 0%, rgba(15, 23, 42, 0.45) 100%);
+    }
+
+    .floating-badge {
+      position: absolute;
+      right: 24px;
+      bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      max-width: 260px;
+      padding: 14px 16px;
+      color: var(--white);
+      background: rgba(15, 23, 42, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 16px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .floating-badge strong {
+      display: block;
+      margin-bottom: 2px;
+      font-size: 13px;
+    }
+
+    .floating-badge small {
+      display: block;
+      color: #cbd5e1;
+      font-size: 11px;
+      line-height: 1.4;
+    }
+
+    .floating-icon {
+      display: grid;
+      width: 34px;
+      height: 34px;
+      flex-shrink: 0;
+      place-items: center;
+      color: #67e8f9;
+      background: rgba(6, 182, 212, 0.2);
+      border-radius: 10px;
+    }
+
+    .floating-icon svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .visual-caption {
+      position: absolute;
+      bottom: 26px;
+      left: 25px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .caption-line {
+      width: 25px;
+      height: 2px;
+      background: #67e8f9;
+    }
+
+    /* Stats Section */
+    .stats-section {
+      padding: 40px 0;
+      background: var(--ice-blue);
+      border-block: 1px solid #e0f2fe;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 8px 32px;
+      border-right: 1px solid #dbeafe;
+    }
+
+    .stat-item:first-child { padding-left: 0; }
+    .stat-item:last-child { padding-right: 0; border-right: 0; }
+
+    .stat-item strong {
+      color: var(--teal);
+      font-family: var(--font-heading);
+      font-size: clamp(28px, 3.2vw, 40px);
+      letter-spacing: -0.05em;
+      line-height: 1.1;
+      font-weight: 800;
+    }
+
+    .stat-item strong span {
+      color: var(--cyan);
+    }
+
+    .stat-item span {
+      color: var(--slate);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* Scrolling Marquee */
+    .marquee-section {
+      overflow: hidden;
+      color: var(--white);
+      background: linear-gradient(100deg, var(--teal), var(--cyan));
+    }
+
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      animation: marquee 30s linear infinite;
+    }
+
+    .marquee-section:hover .marquee-track {
+      animation-play-state: paused;
+    }
+
+    .marquee-content {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      min-height: 56px;
+      padding-right: 28px;
+      white-space: nowrap;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .marquee-content b {
+      color: #99f6e4;
+      font-size: 16px;
+    }
+
+    @keyframes marquee {
+      to { transform: translateX(-50%); }
+    }
+
+    /* Services Bento Grid */
+    .section-heading {
+      max-width: 680px;
+      margin: 0 auto 55px;
+      text-align: center;
+    }
+
+    .section-heading h2 {
+      margin-bottom: 16px;
+      font-size: clamp(34px, 3.8vw, 52px);
+      line-height: 1.1;
+      font-weight: 800;
+    }
+
+    .section-heading p:last-child {
+      color: var(--slate);
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .service-card {
+      position: relative;
+      min-height: 380px;
+      overflow: hidden;
+      background: var(--ice);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .service-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-card);
+    }
+
+    .service-card-content {
+      position: relative;
+      z-index: 2;
+      max-width: 380px;
+      padding: 36px;
+    }
+
+    .service-card h3 {
+      margin-bottom: 14px;
+      font-size: 24px;
+      line-height: 1.2;
+      font-weight: 700;
+    }
+
+    .service-card p:not(.card-number) {
+      color: var(--slate);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .card-number {
+      margin: 20px 0 10px;
+      color: var(--teal);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .icon-box {
+      display: grid;
+      width: 48px;
+      height: 48px;
+      place-items: center;
+      color: var(--teal);
+      background: var(--white);
+      border: 1px solid #ccfbf1;
+      border-radius: 14px;
+      box-shadow: 0 4px 12px rgba(13, 148, 136, 0.08);
+    }
+
+    .icon-box svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .card-link {
+      margin-top: 20px;
+    }
+
+    .service-card-photo {
+      color: var(--white);
+      background: var(--charcoal);
+    }
+
+    .service-card-photo img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.45;
+    }
+
+    .photo-shade {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(145deg, rgba(15, 23, 42, 0.3), rgba(15, 23, 42, 0.92));
+    }
+
+    .card-content-light {
+      position: relative;
+    }
+
+    .icon-box-light {
+      color: #a5f3fc;
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.18);
+    }
+
+    .card-content-light .card-number { color: #99f6e4; }
+    .card-content-light p:not(.card-number) { color: #cbd5e1; }
+    .light-link { color: var(--white); }
+
+    .service-card-dark {
+      color: var(--white);
+      background: var(--charcoal);
+      border-color: var(--charcoal);
+    }
+
+    .service-card-dark .card-number { color: #99f6e4; }
+    .service-card-dark p:not(.card-number) { color: #cbd5e1; }
+
+    .icon-box-teal {
+      color: #99f6e4;
+      background: rgba(20, 184, 166, 0.2);
+      border-color: rgba(45, 212, 191, 0.25);
+    }
+
+    .dark-card-glow {
+      position: absolute;
+      right: -100px;
+      bottom: -150px;
+      width: 350px;
+      height: 350px;
+      background: rgba(13, 148, 136, 0.25);
+      border-radius: 50%;
+      filter: blur(50px);
+    }
+
+    /* Quote Section */
+    .quote-section {
+      padding: 100px 0;
+      background: var(--ice-blue);
+    }
+
+    .quote-inner {
+      max-width: 760px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .quote-mark {
+      display: block;
+      color: var(--teal);
+      font-family: Georgia, serif;
+      font-size: 80px;
+      line-height: 0.6;
+    }
+
+    blockquote {
+      margin: 22px 0 28px;
+      font-family: var(--font-heading);
+      font-size: clamp(24px, 3vw, 36px);
+      font-weight: 600;
+      letter-spacing: -0.04em;
+      line-height: 1.3;
+    }
+
+    .quote-author {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      text-align: left;
+    }
+
+    .quote-author strong {
+      display: block;
+      font-size: 13px;
+    }
+
+    .quote-author small {
+      display: block;
+      color: var(--slate);
+      font-size: 12px;
+    }
+
+    /* Contact Section */
+    .contact-section {
+      padding: 80px 0;
+    }
+
+    .contact-panel {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 45px;
+      padding: 60px;
+      color: var(--white);
+      background: radial-gradient(circle at 90% 10%, rgba(45, 212, 191, 0.35), transparent 32%), var(--charcoal);
+      border-radius: var(--radius-lg);
+    }
+
+    .contact-panel h2 {
+      margin-bottom: 0;
+      font-size: clamp(32px, 3.5vw, 48px);
+      line-height: 1.1;
+    }
+
+    .contact-panel h2 span {
+      color: #5eead4;
+    }
+
+    .contact-panel p:last-child {
+      max-width: 500px;
+      margin: 16px 0 0;
+      color: #cbd5e1;
+      font-size: 15px;
+    }
+
+    /* Footer */
+    .site-footer {
+      padding: 55px 0 25px;
+      color: #cbd5e1;
+      background: var(--navy);
+    }
+
+    .brand-light {
+      color: var(--white);
+    }
+
+    .footer-grid {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 35px;
+      padding-bottom: 48px;
+    }
+
+    .footer-brand p {
+      max-width: 285px;
+      margin: 16px 0 0;
+      color: #94a3b8;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .footer-links {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      color: #94a3b8;
+      font-size: 13px;
+    }
+
+    .footer-links svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      padding-top: 20px;
+      color: #64748b;
+      border-top: 1px solid #1e293b;
+      font-size: 12px;
+    }
+
+    /* Modal */
+    .modal[hidden], .mobile-menu[hidden] {
+      display: none;
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+    }
+
+    .modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+    }
+
+    .modal-dialog {
+      position: relative;
+      z-index: 1;
+      width: min(100%, 480px);
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 38px;
+      background: var(--white);
+      border-radius: 24px;
+      box-shadow: 0 30px 90px rgba(15, 23, 42, 0.25);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      display: grid;
+      width: 36px;
+      height: 36px;
+      place-items: center;
+      color: var(--slate);
+      background: var(--ice);
+      border: 0;
+      border-radius: 50%;
+    }
+
+    .modal-icon {
+      display: grid;
+      width: 48px;
+      height: 48px;
+      margin-bottom: 20px;
+      place-items: center;
+      color: var(--teal);
+      background: var(--ice-blue);
+      border-radius: 14px;
+    }
+
+    .modal-dialog h2 {
+      margin-bottom: 10px;
+      font-size: 30px;
+      line-height: 1.1;
+    }
+
+    .modal-dialog p:not(.eyebrow) {
+      color: var(--slate);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    form {
+      display: grid;
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    label {
+      display: grid;
+      gap: 6px;
+      color: var(--navy);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 12px 14px;
+      color: var(--navy);
+      background: var(--ice);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      outline: 0;
+      font-size: 14px;
+    }
+
+    input:focus, textarea:focus {
+      border-color: var(--cyan);
+    }
+
+    .form-success {
+      margin: 0;
+      color: var(--teal);
+      font-size: 13px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    /* Responsive Breakpoints */
+    @media (max-width: 1000px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 50px;
+      }
+      .image-frame {
+        height: 450px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        min-height: 68px;
+      }
+
+      .desktop-nav, .nav-cta {
+        display: none;
+      }
+
+      .menu-toggle {
+        display: grid;
+        width: 42px;
+        height: 42px;
+        place-items: center;
+        color: var(--navy);
+        background: var(--ice);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+      }
+
+      .mobile-menu {
+        position: fixed;
+        top: 68px;
+        left: 0;
+        right: 0;
+        display: block;
+        background: var(--white);
+        border-bottom: 1px solid var(--border);
+        box-shadow: 0 15px 30px rgba(15, 23, 42, 0.09);
+        z-index: 49;
+      }
+
+      .mobile-menu-inner {
+        display: grid;
+        gap: 8px;
+        width: min(100% - 32px, 600px);
+        margin-inline: auto;
+        padding: 20px 0 25px;
+      }
+
+      .mobile-menu a {
+        padding: 10px 0;
+        color: var(--navy);
+        font-family: var(--font-heading);
+        font-size: 20px;
+        font-weight: 700;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px 0;
+      }
+
+      .stat-item {
+        padding: 0 16px;
+      }
+
+      .stat-item:nth-child(2) { border-right: 0; }
+      .stat-item:nth-child(3), .stat-item:nth-child(4) {
+        padding-top: 16px;
+        border-top: 1px solid #dbeafe;
+      }
+
+      .bento-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-panel {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 36px 24px;
+      }
+
+      .footer-grid {
+        flex-direction: column;
+      }
+    }
+  </style>
 </head>
-
 <body>
   <a class="skip-link" href="#main-content">Skip to content</a>
 
+  <!-- Header Navigation -->
   <header class="site-header" id="top">
     <nav class="navbar container" aria-label="Primary navigation">
       <a class="brand" href="#home" aria-label="Direction home">
-        <span class="brand-mark" aria-hidden="true">
-          <i data-lucide="activity"></i>
-        </span>
+        <span class="brand-mark" aria-hidden="true"><i data-lucide="activity"></i></span>
         <span class="brand-name">Direction</span>
       </a>
 
@@ -40,48 +1052,28 @@
         <a href="#contact">Contact</a>
       </div>
 
-      <button
-        class="button button-dark nav-cta"
-        type="button"
-        data-open-modal
-        aria-label="Book a revision consultation"
-      >
-        <span class="status-dot"></span>
-        Book Revision
-      </button>
+      <div class="nav-cta">
+        <button class="button button-dark" type="button" data-open-modal aria-label="Book a revision consultation">
+          <span class="status-dot"></span>
+          Book Revision
+        </button>
+      </div>
 
-      <button
-        class="menu-toggle"
-        type="button"
-        aria-label="Open navigation menu"
-        aria-controls="mobile-menu"
-        aria-expanded="false"
-      >
+      <button class="menu-toggle" type="button" aria-label="Open navigation menu" aria-controls="mobile-menu" aria-expanded="false">
         <i data-lucide="menu"></i>
       </button>
     </nav>
 
+    <!-- Mobile Drawer Menu -->
     <div class="mobile-menu" id="mobile-menu" hidden>
       <div class="mobile-menu-inner">
-        <div class="mobile-menu-top">
-          <span>Navigate</span>
-          <button
-            class="menu-close"
-            type="button"
-            aria-label="Close navigation menu"
-          >
-            <i data-lucide="x"></i>
-          </button>
-        </div>
-
         <a href="#home">Home</a>
         <a href="#word">Word</a>
         <a href="#paragraph">Paragraph</a>
         <a href="#quote">Quote</a>
         <a href="#sentence">Sentence</a>
         <a href="#contact">Contact</a>
-
-        <button class="button button-dark mobile-cta" type="button" data-open-modal>
+        <button class="button button-dark button-full" type="button" data-open-modal style="margin-top: 12px;">
           <span class="status-dot"></span>
           Book Revision
         </button>
@@ -90,6 +1082,7 @@
   </header>
 
   <main id="main-content">
+    <!-- Hero Section -->
     <section class="hero section" id="home">
       <div class="container hero-grid">
         <div class="hero-copy">
@@ -101,27 +1094,17 @@
           </div>
 
           <p class="eyebrow">Purpose, made visible</p>
-
-          <h1>
-            Find the words that move your life
-            <span>forward.</span>
-          </h1>
-
+          <h1>Find the words that move your life <span>forward.</span></h1>
           <p class="hero-description">
-            Direction helps you turn uncertainty into a clear, considered path.
-            Through patient guidance and meaningful reflection, we make space for
-            what matters next.
+            Direction helps you turn uncertainty into a clear, considered path. Through patient guidance and meaningful reflection, we make space for what matters next.
           </p>
 
           <div class="hero-actions">
             <button class="button button-dark button-large" type="button" data-open-modal>
-              Book Free Revision
-              <i data-lucide="arrow-up-right"></i>
+              Book Free Revision <i data-lucide="arrow-up-right"></i>
             </button>
-
             <a class="text-link" href="#services">
-              View Purpose Transformations
-              <i data-lucide="arrow-right"></i>
+              View Purpose Transformations <i data-lucide="arrow-right"></i>
             </a>
           </div>
 
@@ -137,53 +1120,42 @@
 
         <div class="hero-visual">
           <div class="image-frame">
-            <img
-              src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1400&q=85"
-              alt="Warm, modern consultation room with people collaborating"
-              fetchpriority="high"
+            <img 
+              src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1400&q=85" 
+              alt="Warm, modern consultation room with people collaborating" 
             />
-
             <div class="image-overlay"></div>
-
             <div class="floating-badge">
-              <span class="floating-icon">
-                <i data-lucide="heart-pulse"></i>
-              </span>
+              <span class="floating-icon"><i data-lucide="heart-pulse"></i></span>
               <span>
                 <strong>State-of-the-Art</strong>
                 <small>Clarity tools that meet you where you are.</small>
               </span>
             </div>
-
             <div class="visual-caption">
               <span class="caption-line"></span>
               <span>Thoughtful work. Real direction.</span>
             </div>
           </div>
-
-          <div class="orbit orbit-one"></div>
-          <div class="orbit orbit-two"></div>
         </div>
       </div>
     </section>
 
+    <!-- Stats Bar -->
     <section class="stats-section" aria-label="Direction impact metrics">
       <div class="container stats-grid">
         <div class="stat-item">
           <strong>10k<span>+</span></strong>
           <span>Words Made Meaningful</span>
         </div>
-
         <div class="stat-item">
           <strong>15<span>+</span></strong>
           <span>Years of Experience</span>
         </div>
-
         <div class="stat-item">
           <strong>99<span>%</span></strong>
           <span>Satisfaction Qualifications</span>
         </div>
-
         <div class="stat-item">
           <strong>Same-Day</strong>
           <span>Enlightenment Sessions</span>
@@ -191,140 +1163,91 @@
       </div>
     </section>
 
+    <!-- Infinite Marquee Ticker -->
     <section class="marquee-section" aria-label="Direction highlights">
       <div class="marquee-track">
         <div class="marquee-content">
-          <span>This is a space for finding direction</span>
-          <b>•</b>
-          <span>4.9 Google Rating</span>
-          <b>•</b>
-          <span>10,000+ Satisfied Clients</span>
-          <b>•</b>
-          <span>15+ Years of Excellence</span>
-          <b>•</b>
-          <span>State-of-the-Art Guidance</span>
-          <b>•</b>
+          <span>This is a space for finding direction</span> <b>•</b>
+          <span>4.9 Google Rating</span> <b>•</b>
+          <span>10,000+ Satisfied Clients</span> <b>•</b>
+          <span>15+ Years of Excellence</span> <b>•</b>
+          <span>State-of-the-Art Guidance</span> <b>•</b>
         </div>
-
         <div class="marquee-content" aria-hidden="true">
-          <span>This is a space for finding direction</span>
-          <b>•</b>
-          <span>4.9 Google Rating</span>
-          <b>•</b>
-          <span>10,000+ Satisfied Clients</span>
-          <b>•</b>
-          <span>15+ Years of Excellence</span>
-          <b>•</b>
-          <span>State-of-the-Art Guidance</span>
-          <b>•</b>
+          <span>This is a space for finding direction</span> <b>•</b>
+          <span>4.9 Google Rating</span> <b>•</b>
+          <span>10,000+ Satisfied Clients</span> <b>•</b>
+          <span>15+ Years of Excellence</span> <b>•</b>
+          <span>State-of-the-Art Guidance</span> <b>•</b>
         </div>
       </div>
     </section>
 
+    <!-- Services Bento Grid -->
     <section class="services section" id="services">
       <div class="container">
         <div class="section-heading">
           <p class="eyebrow">A considered approach</p>
           <h2>Comprehensive <span>purpose.</span></h2>
-          <p>
-            A complete process for understanding where you are, what you need,
-            and the direction you want to take next.
-          </p>
+          <p>A complete process for understanding where you are, what you need, and the direction you want to take next.</p>
         </div>
 
         <div class="bento-grid">
-          <article class="service-card service-card-large" id="word">
+          <!-- Card 1: Selection -->
+          <article class="service-card" id="word">
             <div class="service-card-content">
-              <div class="icon-box">
-                <i data-lucide="shield-check"></i>
-              </div>
+              <div class="icon-box"><i data-lucide="shield-check"></i></div>
               <p class="card-number">01 / Selection</p>
               <h3>Choose what deserves your attention.</h3>
-              <p>
-                Identify the people, possibilities, and priorities that are
-                genuinely aligned with the life you want to build.
-              </p>
-              <a class="card-link" href="#contact">
-                Learn more <i data-lucide="arrow-up-right"></i>
-              </a>
-            </div>
-
-            <div class="card-art card-art-orbit" aria-hidden="true">
-              <span></span>
-              <span></span>
-              <span></span>
+              <p>Identify the people, possibilities, and priorities that are genuinely aligned with the life you want to build.</p>
+              <a class="card-link" href="#contact">Learn more <i data-lucide="arrow-up-right"></i></a>
             </div>
           </article>
 
+          <!-- Card 2: Choices (Photo Card) -->
           <article class="service-card service-card-photo" id="paragraph">
-            <img
-              src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1000&q=80"
-              alt=""
-              loading="lazy"
-            />
+            <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1000&q=80" alt="" loading="lazy" />
             <div class="photo-shade"></div>
             <div class="service-card-content card-content-light">
-              <div class="icon-box icon-box-light">
-                <i data-lucide="sparkles"></i>
-              </div>
+              <div class="icon-box icon-box-light"><i data-lucide="sparkles"></i></div>
               <p class="card-number">02 / Choices</p>
               <h3>Make room for better possibilities.</h3>
-              <p>
-                Build a clearer perspective and move beyond the choices that
-                have kept you feeling stuck.
-              </p>
-              <a class="card-link light-link" href="#contact">
-                Discover more <i data-lucide="arrow-up-right"></i>
-              </a>
+              <p>Build a clearer perspective and move beyond the choices that have kept you feeling stuck.</p>
+              <a class="card-link light-link" href="#contact">Discover more <i data-lucide="arrow-up-right"></i></a>
             </div>
           </article>
 
+          <!-- Card 3: Brainstorming -->
           <article class="service-card" id="quote">
             <div class="service-card-content">
-              <div class="icon-box">
-                <i data-lucide="brain-circuit"></i>
-              </div>
+              <div class="icon-box"><i data-lucide="brain-circuit"></i></div>
               <p class="card-number">03 / Brainstorming</p>
               <h3>See connections you could not see before.</h3>
-              <p>
-                Thoughtful prompts and collaborative reflection help turn
-                scattered ideas into a cohesive next step.
-              </p>
-              <a class="card-link" href="#contact">
-                Learn more <i data-lucide="arrow-up-right"></i>
-              </a>
+              <p>Thoughtful prompts and collaborative reflection help turn scattered ideas into a cohesive next step.</p>
+              <a class="card-link" href="#contact">Learn more <i data-lucide="arrow-up-right"></i></a>
             </div>
           </article>
 
+          <!-- Card 4: Elaboration (Dark Card) -->
           <article class="service-card service-card-dark" id="sentence">
             <div class="service-card-content">
-              <div class="icon-box icon-box-teal">
-                <i data-lucide="heart-pulse"></i>
-              </div>
+              <div class="icon-box icon-box-teal"><i data-lucide="heart-pulse"></i></div>
               <p class="card-number">04 / Elaboration</p>
               <h3>Give your next chapter room to grow.</h3>
-              <p>
-                Translate your insights into an intentional, practical, and
-                deeply personal plan for moving forward.
-              </p>
-              <a class="card-link light-link" href="#contact">
-                Start your journey <i data-lucide="arrow-up-right"></i>
-              </a>
+              <p>Translate your insights into an intentional, practical, and deeply personal plan for moving forward.</p>
+              <a class="card-link light-link" href="#contact">Start your journey <i data-lucide="arrow-up-right"></i></a>
             </div>
-
             <div class="dark-card-glow" aria-hidden="true"></div>
           </article>
         </div>
       </div>
     </section>
 
+    <!-- Testimonial Quote -->
     <section class="quote-section" aria-label="Client quote">
       <div class="container quote-inner">
-        <span class="quote-mark">“</span>
-        <blockquote>
-          Direction gave me the language to understand what I already knew
-          inside. The next step finally felt like mine.
-        </blockquote>
+        <span class="quote-mark" aria-hidden="true">“</span>
+        <blockquote>Direction gave me the language to understand what I already knew inside. The next step finally felt like mine.</blockquote>
         <div class="quote-author">
           <span class="author-avatar">EC</span>
           <span>
@@ -335,116 +1258,141 @@
       </div>
     </section>
 
-    <section class="contact-section section" id="contact">
-      <div class="container contact-panel">
-        <div>
-          <p class="eyebrow">Your next chapter starts here</p>
-          <h2>Ready to find your <span>direction?</span></h2>
-          <p>
-            Book a free introductory revision and begin with one honest,
-            pressure-free conversation.
-          </p>
+    <!-- Final CTA Panel -->
+    <section class="contact-section" id="contact">
+      <div class="container">
+        <div class="contact-panel">
+          <div>
+            <p class="eyebrow" style="color: #5eead4;">Your next chapter starts here</p>
+            <h2>Ready to find your <span>direction?</span></h2>
+            <p>Book a free introductory revision and begin with one honest, pressure-free conversation.</p>
+          </div>
+          <button class="button button-light button-large" type="button" data-open-modal>
+            Book a Free Revision <i data-lucide="arrow-up-right"></i>
+          </button>
         </div>
-
-        <button class="button button-light button-large" type="button" data-open-modal>
-          Book a Free Revision
-          <i data-lucide="arrow-up-right"></i>
-        </button>
       </div>
     </section>
   </main>
 
+  <!-- Footer -->
   <footer class="site-footer">
     <div class="container footer-grid">
       <div class="footer-brand">
         <a class="brand brand-light" href="#top">
-          <span class="brand-mark">
-            <i data-lucide="activity"></i>
-          </span>
+          <span class="brand-mark"><i data-lucide="activity"></i></span>
           <span class="brand-name">Direction</span>
         </a>
         <p>Finding clarity in the space between where you are and where you want to go.</p>
       </div>
-
       <div class="footer-links">
         <a href="#home">Home</a>
         <a href="#services">Services</a>
         <a href="#contact">Contact</a>
-        <a href="#" aria-label="Instagram">
-          <i data-lucide="instagram"></i>
-        </a>
-        <a href="#" aria-label="LinkedIn">
-          <i data-lucide="linkedin"></i>
-        </a>
+        <a href="#" aria-label="Instagram"><i data-lucide="instagram"></i></a>
+        <a href="#" aria-label="LinkedIn"><i data-lucide="linkedin"></i></a>
       </div>
     </div>
-
     <div class="container footer-bottom">
       <span>© 2026 Direction. All rights reserved.</span>
       <span>Made for meaningful movement.</span>
     </div>
   </footer>
 
-  <div
-    class="modal"
-    id="consultation-modal"
-    role="dialog"
-    aria-modal="true"
-    aria-labelledby="modal-title"
-    hidden
-  >
+  <!-- Modal Dialog -->
+  <div class="modal" id="consultation-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" hidden>
     <div class="modal-backdrop" data-close-modal></div>
-
     <div class="modal-dialog">
       <button class="modal-close" type="button" data-close-modal aria-label="Close modal">
         <i data-lucide="x"></i>
       </button>
-
-      <div class="modal-icon">
-        <i data-lucide="calendar-heart"></i>
-      </div>
-
+      <div class="modal-icon"><i data-lucide="calendar-heart"></i></div>
       <p class="eyebrow">Start with a conversation</p>
       <h2 id="modal-title">Book your free revision.</h2>
-      <p>
-        Tell us a little about where you are and what you would like to explore.
-        We will be in touch within one working day.
-      </p>
-
+      <p>Tell us a little about where you are and what you would like to explore. We will be in touch within one working day.</p>
       <form id="consultation-form">
         <label>
           Name
           <input type="text" name="name" placeholder="Your name" required />
         </label>
-
         <label>
           Email
           <input type="email" name="email" placeholder="you@example.com" required />
         </label>
-
         <label>
           What would you like support with?
-          <textarea
-            name="message"
-            rows="4"
-            placeholder="A few words about your current direction..."
-            required
-          ></textarea>
+          <textarea name="message" rows="4" placeholder="A few words about your current direction..." required></textarea>
         </label>
-
         <button class="button button-dark button-full" type="submit">
-          Send Request
-          <i data-lucide="arrow-right"></i>
+          Send Request <i data-lucide="arrow-right"></i>
         </button>
-
-        <p class="form-success" id="form-success" hidden>
-          Thank you. Your request has been received.
-        </p>
+        <p class="form-success" id="form-success" hidden>Thank you. Your request has been received.</p>
       </form>
     </div>
   </div>
 
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <script src="script.js"></script>
+  <!-- JavaScript Interactivity -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Initialize Lucide icons
+      if (window.lucide) {
+        lucide.createIcons();
+      }
+
+      // Mobile Menu
+      const menuToggle = document.querySelector('.menu-toggle');
+      const mobileMenu = document.querySelector('#mobile-menu');
+      const mobileLinks = document.querySelectorAll('.mobile-menu a');
+
+      function toggleMenu() {
+        const isHidden = mobileMenu.hidden;
+        mobileMenu.hidden = !isHidden;
+        menuToggle.setAttribute('aria-expanded', isHidden);
+      }
+
+      menuToggle?.addEventListener('click', toggleMenu);
+      mobileLinks.forEach(link => link.addEventListener('click', () => {
+        mobileMenu.hidden = true;
+        menuToggle.setAttribute('aria-expanded', 'false');
+      }));
+
+      // Modal Handling
+      const modal = document.querySelector('#consultation-modal');
+      const modalOpenButtons = document.querySelectorAll('[data-open-modal]');
+      const modalCloseButtons = document.querySelectorAll('[data-close-modal]');
+      const form = document.querySelector('#consultation-form');
+      const formSuccess = document.querySelector('#form-success');
+
+      function openModal() {
+        modal.hidden = false;
+        document.body.classList.add('modal-open');
+      }
+
+      function closeModal() {
+        modal.hidden = true;
+        document.body.classList.remove('modal-open');
+        if (formSuccess) formSuccess.hidden = true;
+        form?.reset();
+      }
+
+      modalOpenButtons.forEach(btn => btn.addEventListener('click', openModal));
+      modalCloseButtons.forEach(btn => btn.addEventListener('click', closeModal));
+
+      // Close modal on Escape
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !modal.hidden) {
+          closeModal();
+        }
+      });
+
+      // Form submission
+      form?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (formSuccess) formSuccess.hidden = false;
+        form.reset();
+        setTimeout(closeModal, 2200);
+      });
+    });
+  </script>
 </body>
 </html>
