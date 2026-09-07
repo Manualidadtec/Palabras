@@ -285,7 +285,7 @@
       font-weight: 800;
       letter-spacing: 0.18em;
       line-height: 1.4;
-      text-transform: uppercase;
+      text-transform uppercase;
     }
 
     h1, h2, h3, p {
@@ -1038,14 +1038,14 @@
   <!-- Header Navigation -->
   <header class="site-header" id="top">
     <nav class="navbar container" aria-label="Primary navigation">
-      <a class="brand" href="#home" aria-label="Direction home">
+      <a class="brand" href="index.html" aria-label="Direction home">
         <span class="brand-mark" aria-hidden="true"><i data-lucide="activity"></i></span>
         <span class="brand-name">Direction</span>
       </a>
 
       <div class="desktop-nav">
-        <a href="#home">Home</a>
-        <a href="#word">Word</a>
+        <a href="index.html">Home</a>
+        <a href="word.html">Word</a>
         <a href="#paragraph">Paragraph</a>
         <a href="#quote">Quote</a>
         <a href="#sentence">Sentence</a>
@@ -1067,8 +1067,8 @@
     <!-- Mobile Drawer Menu -->
     <div class="mobile-menu" id="mobile-menu" hidden>
       <div class="mobile-menu-inner">
-        <a href="#home">Home</a>
-        <a href="#word">Word</a>
+        <a href="index.html">Home</a>
+        <a href="word.html">Word</a>
         <a href="#paragraph">Paragraph</a>
         <a href="#quote">Quote</a>
         <a href="#sentence">Sentence</a>
@@ -1193,14 +1193,14 @@
         </div>
 
         <div class="bento-grid">
-          <!-- Card 1: Selection -->
+          <!-- Card 1: Selection (Linked to word.html) -->
           <article class="service-card" id="word">
             <div class="service-card-content">
               <div class="icon-box"><i data-lucide="shield-check"></i></div>
               <p class="card-number">01 / Selection</p>
               <h3>Choose what deserves your attention.</h3>
               <p>Identify the people, possibilities, and priorities that are genuinely aligned with the life you want to build.</p>
-              <a class="card-link" href="#contact">Learn more <i data-lucide="arrow-up-right"></i></a>
+              <a class="card-link" href="word.html">Learn more <i data-lucide="arrow-up-right"></i></a>
             </div>
           </article>
 
@@ -1286,7 +1286,8 @@
         <p>Finding clarity in the space between where you are and where you want to go.</p>
       </div>
       <div class="footer-links">
-        <a href="#home">Home</a>
+        <a href="index.html">Home</a>
+        <a href="word.html">Word</a>
         <a href="#services">Services</a>
         <a href="#contact">Contact</a>
         <a href="#" aria-label="Instagram"><i data-lucide="instagram"></i></a>
@@ -1334,12 +1335,10 @@
   <!-- JavaScript Interactivity -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // Initialize Lucide icons
       if (window.lucide) {
         lucide.createIcons();
       }
 
-      // Mobile Menu
       const menuToggle = document.querySelector('.menu-toggle');
       const mobileMenu = document.querySelector('#mobile-menu');
       const mobileLinks = document.querySelectorAll('.mobile-menu a');
@@ -1356,7 +1355,6 @@
         menuToggle.setAttribute('aria-expanded', 'false');
       }));
 
-      // Modal Handling
       const modal = document.querySelector('#consultation-modal');
       const modalOpenButtons = document.querySelectorAll('[data-open-modal]');
       const modalCloseButtons = document.querySelectorAll('[data-close-modal]');
@@ -1378,14 +1376,12 @@
       modalOpenButtons.forEach(btn => btn.addEventListener('click', openModal));
       modalCloseButtons.forEach(btn => btn.addEventListener('click', closeModal));
 
-      // Close modal on Escape
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && !modal.hidden) {
           closeModal();
         }
       });
 
-      // Form submission
       form?.addEventListener('submit', (e) => {
         e.preventDefault();
         if (formSuccess) formSuccess.hidden = false;
